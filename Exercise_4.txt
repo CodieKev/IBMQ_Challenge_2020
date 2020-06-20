@@ -1,0 +1,174 @@
+from may4_challenge.ex4 import get_unitary
+import numpy as np
+from numpy import pi
+import cmath 
+U = get_unitary()
+#print(U)
+#U = np.linalg.inv(U) 
+#print("U has shape", U.shape)
+#print(type(U))
+
+#cx = np.array([[complex(1,0),complex(0,0),complex(0,0),complex(0,0)],
+#               [complex(0,0),complex(1,0),complex(0,0),complex(0,0)],
+#               [complex(0,0),complex(0,0),complex(0,0),complex(1,0)],
+#               [complex(0,0),complex(0,0),complex(1,0),complex(0,0)]])
+#####
+#Iden = np.identity(8,dtype=complex)
+
+
+#u3g = np.array([[complex(1,0),complex(0,0)],[complex(0,0),complex(-0.7,0.7)]])
+#u3gm = np.kron(Iden,u3g)
+#print(u3gm)
+######
+#cx1 = np.kron(cx,Iden)
+#cx2 = np.kron(Iden,cx)
+#cx3 = np.dot(cx2,np.dot(cx1,cx2))
+#cx4 = np.kron(cx3,Iden)
+#cx5 = np.kron(Iden,cx2)
+#cont = np.dot(cx5,cx4)
+#contin = np.dot(cx4,cx5)
+#count = np.dot(cont,contin)
+#print(count)
+#U = U*complex(0.37,-0.92)
+#print(U)
+
+
+from qiskit import QuantumCircuit
+from may4_challenge.ex4 import check_circuit, submit_circuit
+from qiskit.quantum_info.operators.predicates import is_isometry
+import numpy as np
+from scipy.linalg import hadamard
+from sympy import *
+H = hadamard(16,dtype=complex)/4
+#H1 = hadamard(8,dtype=complex)/2*(2**0.5)
+#SH = np.array([[complex(0.7071067811865468,0),complex(0.5,-0.5)],
+#               [complex(0,0.7071067811865468),complex(-0.5,0.5)]])
+#print(H1)
+#SH1 = np.kron(SH,H1)
+
+#SH1I = np.linalg.inv(SH1) 
+#print(np.dot(SH1I,SH1))
+
+U1 = np.dot(H,U)
+U11 = Matrix(U1)
+p , UD = U11.diagonalize() 
+print(P)
+U2 = np.dot(U1,H)
+U4 = U2*10
+#print(U4)
+U3 = np.dot(U2,u3gm)
+c = []
+for i in range (16):
+    c.append(U2[i,i])
+#print(c)
+#c[0] = complex(1,0)
+
+
+
+#c[3] = c[4] =c[13]= c[14]= complex(0,1)
+#c[7] = c[9] =c[10]= complex(-1,0)
+#print(c)
+#c[1] =c[11]= complex(0.7,0.7)
+#c[2]= c[12] = -c[1]
+#c[5] = complex(0.7,-0.7)
+#c[6] = c[8] =c[15]= -c[5]
+
+#for i in range(16):
+#    for j in range(16):
+#        U3[i,j] = np.around(U3[i,j], decimals = 3)
+#print(U3)
+
+#c1 = [1,complex(0.7,0.7),complex(0.7,0.7),complex(1,0),
+#     complex(1,0),complex(0.7,0.7),complex(0.7,0.7),complex(1,0),
+#     complex(0.7,0.7),complex(1,0),complex(1,0),complex(0.7,0.7),
+#     complex(0.7,0.7),complex(1,0),complex(1,0),complex(0.7,0.7)]
+#c2 = [complex(1,0),complex(1,0),complex(-1,0),complex(0,1),
+#     complex(0,1),complex(0,-1),complex(0,1),complex(-1,0),
+#     complex(0,1),complex(-1,0),complex(-1,0),complex(1,0),
+#     complex(-1,0),complex(0,1),complex(0,1),complex(0,1)]
+c6 = []
+for i in range (16):
+    c6.append(c[i]*complex(0,-1))
+c3 = []
+for i in range (16):
+    c3.append(U3[i,i])
+
+#c33[0] = complex(-0.7,0.7)
+#c33[1]=c33[10]=c33[11] = -c33[0]
+#c33[2] = c33[3] = c33[12] = c33[13] = complex(1,0)
+#c33[15] = complex(0.7,0.7)
+#c33[4] = c33[5] = c33[14] = -c33[15]
+#c33[6] = c33[8] = complex(0,-1)
+#c33[7] = c33[9] = complex(0,1)
+c4 = []
+for i in range (16):
+    c4.append(u3gm[i,i])
+c5 = [complex(1,0),complex(0,1),complex(1,0),complex(1,0),
+     complex(1,0),complex(1,0),complex(1,0),complex(0,1),
+     complex(1,0),complex(0,1),complex(1,0),complex(1,0),
+     complex(1,0),complex(1,0),complex(1,0),complex(0,1)]
+
+
+pp = np.empty([16,16],dtype = complex)
+for i in range (16):
+    for j in range(16):
+        pp[i,j] = complex(0,0)
+for i in range (16):
+    pp[i,i] = c5[i]
+#print(pp)
+Hdas = np.dot(H,pp)
+#print (Hdas)
+#U4 = np.dot(Hdas,H)
+#print (c33)
+
+
+
+print(c)
+#print(U)
+
+
+
+
+
+from qiskit.compiler import transpile
+#from scipy.linalg import hadamard
+from qiskit import Aer,execute,QuantumRegister
+# apply operations to your quantum circuit here
+c33 = []
+for i in range (16):
+    c33.append(c[i]*complex(1,0))
+##### build your quantum circuit here
+qc = QuantumCircuit(4)
+qc.u3(pi/2,0,pi,0)
+qc.u3(pi/2,0,pi,1)
+qc.u3(pi/2,0,pi,2)
+qc.u3(pi/2,0,pi,3)
+
+#qc.isometry(Hdas,[0,1,2,3],[])
+
+#qc.u3(0,0,-3*pi/4,0)
+# apply operations to your quantum circuit here
+#qc.diagonal(c1,[0,1,2,3])
+#qc.diagonal(c2,[0,1,2,3])
+#qc.diagonal(c5,[0,1,2,3])
+#qc.diagonal(c,[0,1,2,3])
+
+
+qc.diagonal(c,[0,1,2,3])
+
+#qc.isometry(Hdas,[0,1,2,3],[])
+#########  cut paste the thing to the last 
+qc.u3(pi/2,0,pi,0)
+qc.u3(pi/2,0,pi,1)
+qc.u3(pi/2,0,pi,2)
+qc.u3(pi/2,0,pi,3)
+### look here idiot this is the last 
+qc = transpile(qc, basis_gates = ['u3', 'cx'], seed_transpiler=11, optimization_level=3)
+print('gates = ', qc.count_ops())
+print('depth = ', qc.depth())
+#print(qc.qasm())
+qc.draw()
+
+check_circuit(qc)
+
+submit_circuit(qc) 
